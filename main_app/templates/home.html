@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    </head>
+    <body>
+        <div class="container">
+        <h1>Wacky Widgets</h1>
+        {% if wacky_widgets %}
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for wacky_widget in wacky_widgets %}
+                    <tr>
+                        <td>{{wacky_widget.description}}</td>
+                        <td>{{wacky_widget.quantity}}</td>
+                        <td><a href="{% url 'delete_wacky_widget' wacky_widget.id %}">X</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>Total Quantity</td>
+                        <td>{{total_quantity}}</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        {% else %}
+            <h5> No widgets</h5>
+        {% endif %}
+        <h3>Add Widget</h3>
+        <form class="form-group" method="POST" action="{% url 'add_wacky_widget' %}">
+            {% csrf_token %}
+            {{wacky_widget_form.as_p}}
+            <input type="submit" name="Add Widget" class="btn btn-secondary">
+        </form>
+    </div>
+    </body>
+</html>
